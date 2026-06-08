@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "Unbar — crop, zoom, stretch or auto-fit any video to remove black bars.",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "bash build.sh",
-    "lint": "npm run build && web-ext lint",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run build && npm run typecheck && web-ext lint",
     "start": "npm run build && web-ext run",
     "dist": "npm run build && web-ext build",
     "sign": "npm run build && web-ext sign --channel=unlisted"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.270",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0",
     "web-ext": "^8.3.0"
   }
 }

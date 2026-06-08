@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Build/dev dependencies (esbuild, typescript, web-ext, @types/chrome).
+  # None of these ship in the extension — they only run at build time.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        patterns: ["*"]
+
+  # Pinned GitHub Actions — get PRs when a safer version is published.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

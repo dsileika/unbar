@@ -52,8 +52,9 @@ any site. No accounts, no servers, **nothing leaves your browser**.
 
 Grab a prebuilt zip from the [**Releases**](https://github.com/dsileika/unbar/releases)
 page — `unbar-chrome-<ver>.zip` or `unbar-firefox-<ver>.zip` — so you don't have
-to build anything. Or build locally with `./build.sh` (same code, both browsers;
-only the manifest differs). Unpack the zip, then follow the steps below.
+to build anything. Or build locally with `npm install && npm run build` (same
+TypeScript source, both browsers; only the manifest differs). Unpack the zip,
+then follow the steps below.
 
 ### Brave / Chrome / Edge
 
@@ -75,20 +76,23 @@ only the manifest differs). Unpack the zip, then follow the steps below.
 > you'd package and sign it via [AMO](https://addons.mozilla.org) or
 > `web-ext sign`. The `browser_specific_settings.gecko.id` is already set.
 
-## Development (web-ext)
+## Development
 
-[`web-ext`](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/)
-is wired up for the Firefox build. Install deps once with `npm install`, then:
+Source is **TypeScript** in `src/`, bundled by **esbuild** into readable IIFE
+files (no minification). Install deps once with `npm install`, then:
 
 | Script | What it does |
 |--------|--------------|
-| `npm run build` | Generate `dist/chrome` and `dist/firefox` |
-| `npm run lint` | Build, then `web-ext lint` the Firefox package (0 warnings) |
-| `npm start` | Build, then launch Firefox with the add-on auto-loaded + live reload |
+| `npm run build` | esbuild → `dist/chrome` and `dist/firefox` |
+| `npm run typecheck` | `tsc --noEmit` type-check (no JS emitted) |
+| `npm run lint` | Build + typecheck + `web-ext lint` (0 warnings) |
+| `npm start` | Build, then launch Firefox with the add-on + live reload |
 | `npm run dist` | Build, then package `dist/artifacts/unbar-<version>.zip` |
 | `npm run sign` | Build, then sign via AMO for self-distribution (unlisted) |
 
-`web-ext` config lives in `web-ext-config.cjs` (source dir, artifacts dir).
+esbuild bundles `src/modes.ts` into both entry points, so the manifest loads a
+single `content.js` and the popup a single `popup.js`. `web-ext` config lives in
+`web-ext-config.cjs` (source dir, artifacts dir).
 
 - **`npm start`** needs a Firefox binary; if it's not on `PATH`, pass one with
   `web-ext run --firefox /path/to/firefox` (or `--firefox=nightly`).
@@ -105,17 +109,18 @@ is wired up for the Firefox build. Install deps once with `npm install`, then:
 
 ## Files
 
-| File | Purpose |
+| Path | Purpose |
 |------|---------|
-| `manifest.json` | MV3 manifest (Chromium) |
-| `manifest.firefox.json` | MV3 manifest (Firefox/Gecko) |
-| `build.sh` | Writes `dist/chrome` and `dist/firefox` |
-| `package.json` | npm scripts wrapping `web-ext` |
-| `web-ext-config.cjs` | `web-ext` source/artifacts config |
-| `modes.js` | Shared mode definitions |
-| `content.js` | Applies modes, Ctrl+Scroll handler, toaster |
+| `src/modes.ts` | Shared mode definitions (types + helpers) |
+| `src/content.ts` | Applies modes, Ctrl+Scroll handler, toaster |
+| `src/popup.ts` | Toolbar popup logic |
 | `content.css` | Toaster styling |
-| `popup.html` / `popup.js` | Toolbar popup UI |
+| `popup.html` | Popup markup |
+| `scripts/build.mjs` | esbuild bundler → `dist/chrome` + `dist/firefox` |
+| `tsconfig.json` | TypeScript config (type-check only) |
+| `manifest.json` / `manifest.firefox.json` | MV3 manifests (Chromium / Firefox) |
+| `package.json` | Dependencies + npm scripts (esbuild, tsc, web-ext) |
+| `web-ext-config.cjs` | `web-ext` source/artifacts config |
 | `icons/` | Extension icons |
 | `assets/` | README banner & logo (not shipped in the build) |
 
