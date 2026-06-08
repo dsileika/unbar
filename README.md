@@ -50,15 +50,17 @@ any site. No accounts, no servers, **nothing leaves your browser**.
 
 ## Install
 
-The same code runs on both Chromium and Firefox; only the manifest differs.
-Run `./build.sh` to generate clean per-browser folders under `dist/`.
+Grab a prebuilt zip from the [**Releases**](https://github.com/dsileika/unbar/releases)
+page — `unbar-chrome-<ver>.zip` or `unbar-firefox-<ver>.zip` — so you don't have
+to build anything. Or build locally with `./build.sh` (same code, both browsers;
+only the manifest differs). Unpack the zip, then follow the steps below.
 
 ### Brave / Chrome / Edge
 
 1. Open `brave://extensions` (or `chrome://extensions`).
 2. Toggle **Developer mode** on (top-right).
-3. Click **Load unpacked** and select `dist/chrome`
-   (or the project root — its `manifest.json` is the Chromium one).
+3. Click **Load unpacked** and select the unzipped `unbar-chrome-<ver>` folder
+   (or `dist/chrome` if you built locally).
 4. Pin the extension and open any video (e.g. YouTube).
 
 ### Firefox
