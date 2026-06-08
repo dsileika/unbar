@@ -1,0 +1,16 @@
+{
+  "name": "unbar",
+  "version": "1.0.0",
+  "description": "Unbar — crop, zoom, stretch or auto-fit any video to remove black bars.",
+  "private": true,
+  "scripts": {
+    "build": "bash build.sh",
+    "lint": "npm run build && web-ext lint",
+    "start": "npm run build && web-ext run",
+    "dist": "npm run build && web-ext build",
+    "sign": "npm run build && web-ext sign --channel=unlisted"
+  },
+  "devDependencies": {
+    "web-ext": "^8.3.0"
+  }
+}

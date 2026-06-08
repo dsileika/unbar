@@ -1,0 +1,6 @@
+node_modules/
+dist/
+web-ext-artifacts/
+.claude/
+*.log
+.DS_Store
