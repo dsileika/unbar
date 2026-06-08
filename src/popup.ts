@@ -101,8 +101,8 @@ siteToggle.addEventListener("change", () => {
 // Keep the UI live if mode/site/fill change elsewhere (e.g. Ctrl+Scroll).
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== "local") return;
-  if (changes[KEY]) globalMode = changes[KEY].newValue || DEFAULT_MODE;
-  if (changes[SITES_KEY]) sites = changes[SITES_KEY].newValue || {};
+  if (changes[KEY]) globalMode = (changes[KEY].newValue as string) || DEFAULT_MODE;
+  if (changes[SITES_KEY]) sites = (changes[SITES_KEY].newValue as Record<string, string>) || {};
   if (changes[FILL_KEY]) showFill(Number(changes[FILL_KEY].newValue) || 0);
   if (changes[KEY] || changes[SITES_KEY]) render();
 });
@@ -123,8 +123,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     siteHost.textContent = "this page can't be modified";
   }
   chrome.storage.local.get([KEY, SITES_KEY, FILL_KEY], (res) => {
-    globalMode = res[KEY] || DEFAULT_MODE;
-    sites = res[SITES_KEY] || {};
+    globalMode = (res[KEY] as string) || DEFAULT_MODE;
+    sites = (res[SITES_KEY] as Record<string, string>) || {};
     showFill(res[FILL_KEY] != null ? Number(res[FILL_KEY]) : DEFAULT_FILL);
     render();
   });

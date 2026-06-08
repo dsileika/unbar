@@ -238,7 +238,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     // Re-fit live if Smart mode is active and the strength moved.
     if (currentMode === "smart") applyToAll(byId("smart"));
   }
-  if (changes[KEY]) globalMode = changes[KEY].newValue || DEFAULT_MODE;
+  if (changes[KEY]) globalMode = (changes[KEY].newValue as string) || DEFAULT_MODE;
   if (changes[SITES_KEY]) {
     const sites = (changes[SITES_KEY].newValue || {}) as Record<string, string>;
     siteMode = Object.prototype.hasOwnProperty.call(sites, SITE) ? sites[SITE] : null;
@@ -318,7 +318,7 @@ function onVideoLoad(e: Event): void {
 
 chrome.storage.local.get([KEY, SITES_KEY, FILL_KEY], (res) => {
   if (res[FILL_KEY] != null) fillStrength = clampFill(res[FILL_KEY]);
-  globalMode = res[KEY] || DEFAULT_MODE;
+  globalMode = (res[KEY] as string) || DEFAULT_MODE;
   const sites = (res[SITES_KEY] || {}) as Record<string, string>;
   siteMode = Object.prototype.hasOwnProperty.call(sites, SITE) ? sites[SITE] : null;
   currentMode = effectiveMode();
