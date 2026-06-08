@@ -1,0 +1,28 @@
+name: Dependabot auto-merge
+
+# Auto-merge Dependabot PRs for patch and minor updates once CI passes.
+# Major updates are left for manual review (they can break, like @types/chrome
+# 0.1 did). Requires repo Settings → "Allow auto-merge" to be enabled, and a
+# branch protection rule on main requiring the CI "build" check so the merge
+# waits for green.
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch update metadata
+        id: meta
+        uses: dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
+
+      - name: Enable auto-merge for patch/minor updates
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch' || steps.meta.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
