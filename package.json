@@ -13,9 +13,9 @@
     "sign": "npm run build && web-ext sign --channel=unlisted"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.270",
-    "esbuild": "^0.24.0",
-    "typescript": "^5.6.0",
-    "web-ext": "^8.3.0"
+    "@types/chrome": "^0.1.43",
+    "esbuild": "^0.28.0",
+    "typescript": "^6.0.3",
+    "web-ext": "^10.3.0"
   }
 }
