@@ -8,6 +8,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/dsileika/unbar/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/dsileika/unbar/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="Manifest V3" src="https://img.shields.io/badge/Manifest-V3-6c8cff">
   <img alt="Chromium + Firefox" src="https://img.shields.io/badge/browsers-Chromium%20%7C%20Firefox-6c8cff">
   <img alt="No tracking" src="https://img.shields.io/badge/data%20collected-none-3fbf7f">
