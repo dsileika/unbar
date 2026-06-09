@@ -37,6 +37,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # Re-runnable: if a release already exists for this tag, replace it
+          # (keeps the tag — we manage that via git).
+          gh release delete "$GITHUB_REF_NAME" --yes 2>/dev/null || true
           gh release create "$GITHUB_REF_NAME" dist/release/*.zip \
             --title "Unbar $GITHUB_REF_NAME" \
             --generate-notes
