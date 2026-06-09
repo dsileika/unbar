@@ -1,0 +1,4 @@
+# Default owner for everything in the repo. Combined with a branch rule that
+# requires review from Code Owners, every PR needs @dsileika's approval before
+# it can be merged.
+* @dsileika
